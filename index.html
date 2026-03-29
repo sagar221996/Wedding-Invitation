@@ -839,10 +839,17 @@
             window.open('mailto:info@sagarandsumitra.com');
         }
 
-        function downloadCard() {
-            alert('Download feature - Update with actual card file');
-        }
-
+        //function downloadCard() {
+        //    alert('Download feature - Update with actual card file');
+        //}
+		function downloadCard() {
+			const link = document.createElement('a');
+			//link.href = 'invitation.mp4'; // or invitation.jpg / pdf
+			link.download = 'patrika.jpg'; // name user will download
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		}
         function openMaps() {
             window.open('https://www.google.com/maps/search/Global+Banquests+Dombivili/@19.1136,73.2953,15z', '_blank');
         }
