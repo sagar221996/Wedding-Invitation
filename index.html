@@ -20,9 +20,9 @@
         }
 
         .container {
-            max-width: 480px;
-            margin: 0 auto;
-            overflow-x: hidden;
+            width: 100%;
+			max-width: 100%;
+			padding: 0 10px;
         }
 
         /* SPLASH SCREEN */
@@ -536,6 +536,51 @@
                 font-size: 1.75rem;
             }
         }
+		/* Smooth scroll reveal */
+		.reveal {
+		  opacity: 0;
+		  transform: translateY(40px);
+		  transition: all 0.8s ease;
+		}
+
+		.reveal.active {
+		  opacity: 1;
+		  transform: translateY(0);
+		}
+
+		/* Patrika hover animation */
+		.patrika-img img {
+		  transition: transform 0.6s ease;
+		}
+
+		.patrika-img img:hover {
+		  transform: scale(1.05);
+		}
+
+		/* Hero subtle zoom */
+		.hero img {
+		  animation: zoomIn 6s ease-in-out infinite alternate;
+		}
+
+		@keyframes zoomIn {
+		  from { transform: scale(1); }
+		  to { transform: scale(1.08); }
+		}
+		.section {
+			margin: 2rem auto;
+			width: 100%;
+		}
+
+		/* Make hero full height feel */
+		.hero {
+			height: 80vh;
+		}
+
+		/* Patrika bigger */
+		.patrika-img img {
+			width: 100%;
+			height: auto;
+}
     </style>
 </head>
 <body>
@@ -554,7 +599,7 @@
     <div class="main-content hidden" id="mainContent">
         <div class="container">
             <!-- HERO SECTION -->
-            <div class="section">
+            <div class="section reveal">
                 <div class="hero">
                     <img src="couple.jpg" alt="Sagar & Sumitra">
                 </div>
@@ -581,7 +626,7 @@
             </div-->
 
             <!-- PATRIKA SECTION -->
-            <div class="section">
+            <div class="section reveal">
                 <div class="section-heading">
                     <div class="ornaments">
                         <span class="ornament-small">✦</span>
@@ -800,18 +845,24 @@
     <!-- MUSIC PLAYER -->
     <button class="music-player" id="musicBtn" onclick="toggleMusic()" title="Play/Pause Music">▶</button>
     <audio id="bgMusic" loop>
-        <source src="https://www.youtube.com/watch?v=DYcBV9OoAag" type="audio/mpeg">
+        <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
         let isPlaying = false;
 
         function openInvitation() {
-            document.getElementById('splashScreen').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            document.getElementById('floatingNav').style.display = 'flex';
-            document.getElementById('musicBtn').style.display = 'flex';
-        }
+			const splash = document.getElementById('splashScreen');
+			
+			splash.style.transition = "all 0.8s ease";
+			splash.style.opacity = "0";
+			splash.style.transform = "scale(1.1)";
+
+			setTimeout(() => {
+				splash.classList.add('hidden');
+				document.getElementById('mainContent').classList.remove('hidden');
+			}, 800);
+		}
 
         function toggleMusic() {
             const audio = document.getElementById('bgMusic');
@@ -844,8 +895,8 @@
         //}
 		function downloadCard() {
 			const link = document.createElement('a');
-			//link.href = 'invitation.mp4'; // or invitation.jpg / pdf
-			link.download = 'patrika.jpg'; // name user will download
+			link.href = 'patrika.jpg'; // MUST match file name in repo
+			link.download = 'Sagar_Sumitra_Invitation.jpg';
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
@@ -853,6 +904,19 @@
         function openMaps() {
             window.open('https://www.google.com/maps/search/Global+Banquests+Dombivili/@19.1136,73.2953,15z', '_blank');
         }
+		// Scroll animation trigger
+		const reveals = document.querySelectorAll('.section');
+
+		window.addEventListener('scroll', () => {
+			reveals.forEach(section => {
+				const top = section.getBoundingClientRect().top;
+				const windowHeight = window.innerHeight;
+
+				if (top < windowHeight - 100) {
+					section.classList.add('active');
+				}
+			});
+		});
     </script>
 </body>
 </html>
